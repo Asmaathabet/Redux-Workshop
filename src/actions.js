@@ -20,5 +20,28 @@ const MOVIE_SEARCH_URL = 'https://api.themoviedb.org/3/search/movie?api_key=6e10
   }
 */
 
-
 /* TODO: add action dispatcher functions in this file */
+export const searchMovies = () => async ( dispatch, getState) => {
+  const { searchTerm } = getState()
+  const url = `${ MOVIE_SEARCH_URL}${ searchTerm }`
+  const response = await axios.get( url )
+  const movies = response.data.results 
+
+  dispatch({
+    type: 'LOADED_MOVIES',
+    movies
+  })
+}
+
+export const onChangeSearchTerm = (searchTerm) =>{
+  return {
+    type: 'ON_CHANGE_SEARCH_TERM',
+    searchTerm, 
+  }
+}
+
+export const onClearSearchTerm = () =>{
+  return {
+    type: 'ON_CLEAR_SEARCH_TERM'
+  }
+}
